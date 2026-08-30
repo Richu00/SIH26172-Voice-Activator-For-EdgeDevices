@@ -1,0 +1,32 @@
+# Build artifacts
+build/
+.pio/
+*.bin
+*.elf
+*.o
+
+# Edge Impulse exports (keep the final exported model, ignore intermediate build dirs)
+ei-*-arduino-*/
+*-deployment/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Audio dataset (large files — track via a data-sharing link instead, not git)
+firmware/data/raw_audio/
+*.wav
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Secrets — never commit these
+.env
+*_secrets.h
+wifi_credentials.h
