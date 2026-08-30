@@ -62,7 +62,7 @@ An open, self-trainable wake-word detector, engineered to a hard footprint budge
 This project is being actively built as part of SIH 2026. Current stage:
 
 - [x] Problem statement analysis and architecture design
-- [x] Hardware selection (ESP32 + INMP441)
+- [ ] Hardware selection (ESP32 + INMP441)
 - [ ] Raw audio capture verified on hardware
 - [ ] Custom keyword dataset collected
 - [ ] Initial model trained (Edge Impulse)
