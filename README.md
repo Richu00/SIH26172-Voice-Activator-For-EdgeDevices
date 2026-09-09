@@ -28,7 +28,7 @@ An open, self-trainable wake-word detector, engineered to a hard footprint budge
 | **Mic** | INMP441 I2S MEMS microphone captures raw audio |
 | **MFCC** | On-device feature extraction |
 | **On-Device Model** | Quantized DS-CNN-class keyword-spotting model, running within a 256KB RAM / 10% idle-CPU budget |
-| **Wake Trigger** | Fires only on the trained custom keyword |
+| **Wake Trigger** | Fires only on the trained custom keyword ("TALOS") |
 | **Cloud ASR** | Buffered audio streams to a self-hosted Whisper instance for full transcription |
 | **Text Output** | Transcribed result returned |
 
@@ -44,7 +44,18 @@ An open, self-trainable wake-word detector, engineered to a hard footprint budge
 
 - **No vendor lock-in** — every layer of the stack is open-source and auditable, unlike commercial wake-word engines
 - **Custom keyword, not a fixed set** — trainable on any keyword the deployment needs
-- **Proven on real hardware** — footprint numbers come from on-device profiling, not simulation
+- **Proven on real hardware** — footprint numbers, once finalized, come from on-device profiling, not simulation
+
+## Results So Far
+
+Trained and validated in Edge Impulse on a 3-class problem (keyword vs. background noise vs. other speech). Full breakdown, dataset composition, and known limitations are documented in [`MODEL_CARD.md`](MODEL_CARD.md).
+
+| Model version | Accuracy | TALOS recall | Noise recall | TALOS F1 |
+|---|---|---|---|---|
+| Float32 (training) | 94.7% | 87.2% | 96.5% | 0.86 |
+| **Quantized int8 (deployable)** | **92.0%** | **91.1%** | **93.0%** | **0.92** |
+
+The quantized model above is what will actually run on the ESP32. On-device flash size, RAM usage, and live inference latency are still being measured on real hardware — see Project Status below. We're deliberately not publishing simulated/estimated footprint numbers as if they were measured; that distinction matters to us as much as the result itself.
 
 ## Repository Structure
 
@@ -54,6 +65,7 @@ An open, self-trainable wake-word detector, engineered to a hard footprint budge
 │   └── include/
 ├── models/            # Exported/quantized Edge Impulse models
 ├── docs/              # Architecture diagrams, research notes, references
+├── MODEL_CARD.md       # Dataset composition, training results, known limitations
 └── README.md
 ```
 
@@ -62,12 +74,12 @@ An open, self-trainable wake-word detector, engineered to a hard footprint budge
 This project is being actively built as part of SIH 2026. Current stage:
 
 - [x] Problem statement analysis and architecture design
-- [ ] Hardware selection (ESP32 + INMP441)
+- [x] Hardware selection (ESP32 + INMP441)
+- [x] Custom keyword dataset collected (TALOS, noise, unknown — see `MODEL_CARD.md`)
+- [x] Initial model trained and validated in Edge Impulse (92% quantized accuracy)
 - [ ] Raw audio capture verified on hardware
-- [ ] Custom keyword dataset collected
-- [ ] Initial model trained (Edge Impulse)
 - [ ] On-device deployment and live wake-detection test
-- [ ] Footprint validated against 256KB / 10% CPU budget
+- [ ] Footprint validated against 256KB / 10% CPU budget (real hardware measurement, not estimate)
 - [ ] Cloud ASR handoff integrated
 
 ## Team — Caffeine Addicts
