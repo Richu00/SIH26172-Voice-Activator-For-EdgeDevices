@@ -69,6 +69,12 @@ The quantized model above is what will actually run on the ESP32. On-device flas
 └── README.md
 ```
 
+## Known Limitations
+
+- **Indoor/controlled-environment only.** The current wake-word model and confidence threshold have only been tuned and tested in quiet indoor conditions. Outdoor use, background noise, wind hitting the MEMS microphone, and varying speaker distances have not been validated and will likely reduce detection accuracy.
+- **Confidence threshold (0.40) is an initial value**, not yet tuned against real false-positive/false-negative testing data.
+- **Continuous full-inference loop**, not yet optimized into a true low-power always-listening state — current implementation prioritizes demo reliability over power efficiency.
+
 ## Project Status
 
 This project is being actively built as part of SIH 2026. Current stage:
@@ -77,7 +83,7 @@ This project is being actively built as part of SIH 2026. Current stage:
 - [x] Hardware selection (ESP32 + INMP441)
 - [x] Custom keyword dataset collected (TALOS, noise, unknown — see `MODEL_CARD.md`)
 - [x] Initial model trained and validated in Edge Impulse (92% quantized accuracy)
-- [ ] Raw audio capture verified on hardware
+- [x] Raw audio capture verified on hardware
 - [ ] On-device deployment and live wake-detection test
 - [ ] Footprint validated against 256KB / 10% CPU budget (real hardware measurement, not estimate)
 - [ ] Cloud ASR handoff integrated
